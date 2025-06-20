@@ -27,28 +27,76 @@ async function renderCharacters() {
     container.innerHTML = '';
     const characters = await fetchCharacters(currentPage);
 
+    const modal = document.getElementById('modal');
+    const modalContent = document.getElementById('modal-content');
+    const modalClose = document.getElementById('modal-close');
+
+    // Cerrar modal
+    modalClose.onclick = () => {
+        modal.classList.add('hidden');
+        modalContent.querySelector('.modal-body')?.remove(); // limpiar contenido
+    };
+
+    // También cerrar modal si clicas fuera del contenido
+    modal.onclick = (e) => {
+        if (e.target === modal) {
+            modal.classList.add('hidden');
+            modalContent.querySelector('.modal-body')?.remove();
+        }
+    };
+
     characters.forEach((char) => {
         const card = document.createElement('div');
         card.className = `
-      bg-gradient-to-tr from-blue-500 to-green-800
-      dark:from-gray-800 dark:to-gray-900
-      rounded-xl shadow-lg p-4 text-white font-semibold
-      border-2 border-green-300
-      hover:scale-105 transform transition-transform duration-300
-    `;
+          bg-gradient-to-tr from-blue-500 to-green-800
+          dark:from-gray-800 dark:to-gray-900
+          rounded-xl shadow-lg p-4 text-white font-semibold
+          border-2 border-green-300
+          hover:scale-105 transform transition-transform duration-300
+          cursor-pointer
+        `;
 
         card.innerHTML = `
-      <img src="${char.image}" alt="${char.name}" class="w-full h-48 object-cover rounded-t-xl mb-4" />
-      <h2 class="text-center text-lg font-bold">${char.name}</h2>
-      <div class="text-left text-sm mt-2">
-        <p>ID: ${char.id}</p>
-        <p>Tipo: ${char.species}</p>
-        <p>Estado: ${char.status}</p>
-      </div>
-    `;
+          <img src="${char.image}" alt="${char.name}" class="w-full h-48 object-cover rounded-t-xl mb-4" />
+          <h2 class="text-center text-lg font-bold">${char.name}</h2>
+          <div class="text-left text-sm mt-2">
+            <p>ID: ${char.id}</p>
+            <p>Tipo: ${char.species}</p>
+            <p>Estado: ${char.status}</p>
+          </div>
+        `;
+
+        card.addEventListener('click', () => {
+            // Crear contenido completo para modal
+            const modalBody = document.createElement('div');
+            modalBody.className = 'modal-body space-y-2';
+
+            modalBody.innerHTML = `
+              <img src="${char.image}" alt="${char.name}" class="w-full h-56 object-cover rounded-xl mb-4" />
+              <h2 class="text-center text-2xl font-bold mb-2">${char.name}</h2>
+              <div class="text-left text-base space-y-1">
+                <p><strong>ID:</strong> ${char.id}</p>
+                <p><strong>Tipo:</strong> ${char.species}</p>
+                <p><strong>Estado:</strong> ${char.status}</p>
+                <p><strong>Género:</strong> ${char.gender}</p>
+                <p><strong>Origen:</strong> ${char.origin.name}</p>
+                <p><strong>Ubicación:</strong> ${char.location.name}</p>
+                <p><strong>Episodios:</strong> ${char.episode.length}</p>
+              </div>
+            `;
+
+            // Limpiar contenido previo y añadir nuevo
+            modalContent.querySelector('.modal-body')?.remove();
+            modalContent.appendChild(modalBody);
+
+            // Mostrar modal (hacer "flotar")
+            modal.classList.remove('hidden');
+        });
+
         container.appendChild(card);
     });
 }
+
 
 // Toggle tema claro/oscuro
 function setupThemeToggle() {
@@ -97,7 +145,7 @@ async function setupMenu() {
     const menuContainer = document.createElement('nav');
     menuContainer.id = 'dropdown-container';
     menuContainer.className =
-        'absolute md:static bg-white dark:bg-gray-900 z-10 left-0 right-0 top-16 md:top-0 flex flex-col md:flex-row md:items-center gap-4 p-4 md:p-0 hidden md:flex';
+        'absolute md:static bg-transparent dark:bg-gray-900 z-10 left-0 right-0 top-16 md:top-0 flex flex-col md:flex-row md:items-center gap-4 p-4 md:p-0 hidden md:flex';
 
     const dropdowns = [
         { label: 'Especie', values: ['Human', 'Alien', 'Humanoid', 'Robot'] },
@@ -106,13 +154,13 @@ async function setupMenu() {
 
     dropdowns.forEach(({ label, values }) => {
         const wrapper = document.createElement('div');
-        wrapper.className = 'relative';
+        wrapper.className = 'relative ';
 
         const button = document.createElement('button');
         button.textContent = label;
         button.type = 'button';
         button.className =
-            'px-4 py-2  text-white rounded-md hover: bg-gradient-to-tr from-green-200 to-blue-2000';
+            'px-4 py-2  text-white rounded-md hover: bg-gradient-to-tr from-green-600 to-blue-800';
 
         const list = document.createElement('ul');
         list.className =

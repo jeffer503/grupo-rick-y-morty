@@ -18,7 +18,7 @@
 
     <!-- Logo dinámico desde la API (Morty) -->
     <div class="flex items-center gap-2">
-      <img id="logo-img" src="" alt="Logo Morty" class="w-12 h-12 rounded-full border-2 border-blue-500 dark:border-yellow-400" />
+      <img id="logo-img" src="" alt="Logo Morty" class="w-12 h-12 animate-float rounded-full border-2 border-blue-500 dark:border-yellow-400" />
       <h1 class="text-xl font-bold">Rick y Morty</h1>
     </div>
 
@@ -51,9 +51,7 @@
       <p class="text-gray-700 dark:text-gray-300 text-lg">
         Descubre a tus personajes favoritos con nuestra galería interactiva.
       </p>
-      <button class="mt-6 bg-purple-700 text-white px-6 py-2 rounded-lg hover:bg-purple-800 transition-all">
-        Ver Personajes
-      </button>
+
     </div>
 
     <!-- Imagen -->
@@ -71,14 +69,20 @@
   <section class="p-4">
 <div id="cards-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 p-2 max-w-4xl mx-auto">
 </div>
+<div id="modal" class="hidden fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center z-50">
+  <div id="modal-content" class="bg-gradient-to-tr from-blue-600 to-green-700 rounded-lg p-6 max-w-md w-full relative">
+    <button id="modal-close" class="absolute top-3 right-3 text-white text-xl font-bold hover:text-gray-300">&times;</button>
+  </div>
+</div>
+
 
 
     <!-- Botones de paginación -->
     <div class="flex justify-between mt-4">
-      <button id="ant" class="bg-red-500 p-4 rounded-2xl text-white disabled:opacity-50">
+      <button id="ant" class="bg-green-500 p-4 rounded-4xl text-white disabled:opacity-50">
         Anterior
       </button>
-      <button id="sig" class="bg-blue-600 p-4 rounded-2xl text-white disabled:opacity-50">
+      <button id="sig" class="bg-blue-800 p-4 rounded-4xl text-white disabled:opacity-50">
         Siguiente
       </button>
     </div>
