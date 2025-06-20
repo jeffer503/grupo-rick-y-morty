@@ -11,15 +11,15 @@
     const contenedor = document.getElementById('cards-container');//limpia las card para pasar a la siguiente funcion
     contenedor.innerHTML = '';
 
-    data.results.forEach(personaje => {// crear card por cada personaje
-      const card = document.createElement('div');
-      card.className = 'bg-white rounded-lg shadow p-2 text-center';
-      card.innerHTML = `
-        <img src="${personaje.image}" alt="${personaje.name}" class="w-full h-48 object-cover rounded-lg">
-        <h3 class="text-lg font-semibold mt-2 text-black">${personaje.name}</h3>
-      `;
-      contenedor.appendChild(card);
-    });
+data.results.slice(0, 6).forEach(personaje => {
+  const card = document.createElement('div');
+  card.className = 'bg-white rounded-lg shadow p-2 text-center';
+  card.innerHTML = `
+    <img src="${personaje.image}" alt="${personaje.name}" class="w-full h-48 object-cover rounded-lg">
+    <h3 class="text-lg font-semibold mt-2 text-black">${personaje.name}</h3>
+  `;
+  contenedor.appendChild(card);
+});
 
     // Actualizar URLs en botones
     btnSig.dataset.url = data.info.next;
